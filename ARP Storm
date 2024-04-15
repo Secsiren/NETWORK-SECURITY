@@ -1,0 +1,18 @@
+An attacker in the network is trying to poison the arp table of 11.0.0.100, the admin captured this PCAP.
+
+https://hubchallenges.s3-eu-west-1.amazonaws.com/Forensics/ARP+Storm.pcap
+
+Download and open the pcap  file on Wireshark
+It has some hex code
+Open terminal and use tshark and cut to extract those characters with the following command;
+
+tshark -r ARP+Storm.pcap | cut -d "" -f119-20
+
+use Tshark to remove unnecessary parts with the following command;
+
+tshark -r ARP+Storm.pcap -Tfields -e arp.opcode | awk ‘{printf(“%c”,$1)}’
+
+Then decode the output with base64
+
+tshark -r ARP+Storm.pcap -Tfields -e arp.opcode | awk ‘{printf(“%c”,$1)}’ | base64 -d
+flag{gr@tuit0us_0pcOde_1s_Alw@ys_A6uSed_t0_p01s0n} 
